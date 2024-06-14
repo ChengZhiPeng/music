@@ -1,0 +1,254 @@
+body {
+  cursor: url("https://www.liuzehe.top/upload/bkphotos/default.cur"), default;
+}
+
+a {
+  cursor: url("https://www.liuzehe.top/upload/bkphotos/pointer.cur"), pointer;
+}
+
+p {
+  cursor: url("https://www.liuzehe.top/upload/bkphotos/Ha2.cur"), text;
+}
+
+/* 默认样式 */
+.bodyDiv {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  height: 90vh;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  /* 在小屏幕上将显示方式改为垂直排列 */
+  .bodyDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100vh;
+  }
+}
+
+/* 在媒体查询中针对不同屏幕尺寸进行样式调整 */
+@media only screen and (max-width: 768px) {
+  .body {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .body {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
+
+.imgDiv {
+  margin: 10px 0;
+  width: 60%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+.rotate {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  animation: spin 10s linear infinite;
+  box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.selectDiv {
+  width: 500px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  align-items: flex-end;
+}
+
+.musicDiv {
+  border-radius: 10px;
+  overflow-y: auto;
+  width: 500px;
+  height: 450px;
+  background-image: url("https://gd-hbimg.huaban.com/030c54be6125948bdb8cffed6ceb95345a682f1d13b13-69AJsj_fw1200webp");
+  background-size: cover;
+  /* 调整图像大小以填充整个背景 */
+  background-repeat: no-repeat;
+  /* 防止图像重复 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid #eeeeee;
+  box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
+  padding-left: 10px;
+}
+
+.musicDiv > div {
+  margin: 5px;
+  box-shadow: 5px 5px 10px rgb(255 255 255 / 50%);
+}
+
+.musicLyrics {
+  border-radius: 10px;
+  overflow-y: auto;
+  border-radius: 10px;
+  overflow-y: auto;
+  width: 500px;
+  height: 450px;
+  background-image: url("https://gd-hbimg.huaban.com/030c54be6125948bdb8cffed6ceb95345a682f1d13b13-69AJsj_fw1200webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid #eeeeee;
+  box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
+  padding-left: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  line-height: 2;
+}
+
+.changeMusic {
+  width: 300px;
+}
+
+.pointOut {
+  margin: 5px;
+}
+
+.textP {
+  margin: 5px;
+  font-size: 24px;
+  text-align: center;
+  color: white;
+}
+
+.titleP {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.title {
+  display: inline-block;
+  animation: marquee 8s linear infinite;
+  color: #357fff;
+  width: 40px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  50% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.listHover:hover {
+  transform: scale(1.1);
+  color: #357fff;
+  /* text-decoration: underline; */
+}
+
+/* 歌曲播放状态 */
+.active {
+  color: #357fff;
+  animation: hueRotate 10s infinite alternate;
+  box-shadow: 5px 5px 10px rgb(255 255 255 / 50%);
+  /* transform: scale(1.1); */
+  font-size: larger;
+}
+
+@keyframes hueRotate {
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.input {
+  display: inline;
+  width: 50%;
+  padding: 8px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f5f5f5;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  /* box-shadow: 2px 6px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.input:focus {
+  outline: none;
+  border-color: #1890ff;
+  /* Ant Design primary color */
+}
+
+.btn {
+  display: inline;
+  /* width: 100px;
+  height: 30px;
+  background-color: aqua;
+  margin: 0 10px; */
+  margin-right: 10px;
+  display: inline-block;
+  padding: 8px 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  background-color: #1890ff;
+  /* Ant Design primary color */
+  border: 1px solid #1890ff;
+  /* Ant Design primary color */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 2px 6px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  background-color: #40a9ff;
+  /* Ant Design hover color */
+  border-color: #40a9ff;
+  /* Ant Design hover color */
+}
+
+.audioDiv {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 300px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 6px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 410px;
+}
