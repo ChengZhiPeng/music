@@ -318,6 +318,25 @@
       box-shadow: 5px 5px 10px rgb(255 255 255 / 50%);
     }
 
+    .musicLyrics {
+      border-radius: 10px;
+      overflow-y: auto;
+      border-radius: 10px;
+      overflow-y: auto;
+      width: 500px;
+      height: 450px;
+      background-image: url("https://gd-hbimg.huaban.com/030c54be6125948bdb8cffed6ceb95345a682f1d13b13-69AJsj_fw1200webp");
+      background-size: cover;
+      background-repeat: no-repeat;
+      border: 1px solid #eeeeee;
+      box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
+      padding-left: 10px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      line-height: 2;
+    }
+
     .changeMusic {
       width: 300px;
     }
@@ -370,7 +389,8 @@
       color: #357fff;
       animation: hueRotate 10s infinite alternate;
       box-shadow: 5px 5px 10px rgb(255 255 255 / 50%);
-      transform: scale(1.1);
+      /* transform: scale(1.1); */
+      font-size: larger;
     }
 
     @keyframes hueRotate {
@@ -533,7 +553,8 @@
     const ExamplesImg = "https://gd-hbimg.huaban.com/51cf5c5445b1f7e9ebb4d2542b6ab47d8ccef6fe3d67b-vy8H9i_fw658webp"
     const App = () => {
       const audioRef = useRef(null);
-      const [isLooping, setIsLooping] = useState(false);
+      const [isShowLyrics, setIsShowLyrics] = useState(true);//是否循环播放
+      const [isLooping, setIsLooping] = useState(false);//是否循环播放
       const [inputValue, setInputValue] = useState('周杰伦');//存储搜索框中输入的歌手或歌曲名
       const [selectedNum, setSelectedNum] = useState('30');//存储用户选择的展示歌曲数量（10首、20首、30首）
       const [resultList, setResultList] = useState([]);//存储从 API 中返回的歌曲列表数据
@@ -542,8 +563,53 @@
       const [isPlaying, setIsPlaying] = useState(false);//标记音频播放状态，用于切换播放和暂停按钮状态。
       //播放歌曲
       const [selectName, setSelectName] = useState('');// 存储当前选择播放的歌曲名称。
+      const [selectLyrics, setSelectLyrics] = useState('');// 存储当前选择播放的歌词。
+
       const [selectUrl, setSelectUrl] = useState('');//存储当前选择播放的歌曲的音频 URL。
       const [selectImg, setSelectImg] = useState(ExamplesImg);//存储当前选择播放的歌曲的音频 URL。
+      const [playTime, setPlayTime] = useState("00:00");//存储当前播放的歌曲的播放时间。
+
+      const activeLineRef = useRef(null);
+
+      useEffect(() => {
+        if (activeLineRef.current) {
+          activeLineRef.current.scrollIntoView({
+            behavior: 'smooth',//表示滚动行为是平滑的。
+            block: 'center'//表示元素将被滚动到视图的中心位置。
+          });
+        }
+      }, [playTime]);
+
+      useEffect(() => {
+        if (inputValue.trim() !== '') {
+          fetchData()
+          // alert('搜索成功！')
+        } else if (inputValue.trim() === '') {
+          showToast('请输入搜索内容', 1000)
+        }
+      }, [selectedNum, page, selectLyrics, selectName]);  // 起始时加载数据
+
+      useEffect(() => {
+        if (audioRef.current) {
+          const handleTimeUpdate = () => {
+            const currentTime = audioRef.current.currentTime;
+            const duration = audioRef.current.duration;
+            const progress = (currentTime / duration) * 100;
+            setPlayTime(formatTime(currentTime))
+            //console.log('当前播放时间：', formatTime(currentTime));
+            // console.log('总时长：', formatTime(duration));
+            // console.log('播放进度：', progress + '%');
+          };
+
+          audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
+
+          return () => {
+            audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
+          };
+        }
+      }, [audioRef.current]);
+
+
       const handleChange = (e) => {
         setInputValue(e.target.value);
       };
@@ -552,6 +618,60 @@
         setSelectedNum(e.target.value);
       };
 
+      // 取出歌词
+      const handelLines = (selectLyrics) => {
+        return selectLyrics.split('\n').filter(line => line.trim() !== '');// 将歌词文本按行拆分，去除空行
+      }
+      //取出时间 格式如：03:44
+      const extractTimeFromLyrics = (lyricsLine) => {
+        const timeRegex = /\[(\d{2}:\d{2})\.\d{2}\]/; // 匹配时:分格式，不包括秒
+        const match = lyricsLine.match(timeRegex);
+
+        if (match) {
+          return match[1]; // 返回提取到的时间部分
+        } else {
+          return null; // 如果未找到时间戳，返回null或任何其他适当的值
+        }
+      }
+
+      //请求歌词
+      const getLyrics = async (text) => {
+        try {
+          let musicName = text ? text : selectName
+          const regex = /(.+)--/;
+          const match = regex.exec(musicName);
+          console.log('selectName: ', musicName);
+
+          if (match) {
+            const charactersBeforeMatch = match[1]; // 第一个捕获组匹配的内容
+            const res = await axios.get('https://www.hhlqilongzhu.cn/api/dg_geci.php?', {
+
+              params: {
+                type: 2,//
+                msg: charactersBeforeMatch,//1=简洁版,2=带时间节奏,默认1
+                n: 1   //对应歌曲的序号,为空返回列表
+              },
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            setSelectLyrics(res.data)
+            // if (res.status
+            //   == 200) {
+            //   showToast('搜索成功', 1000)
+            //   setResultList(res.data.list);
+            //   console.log('res.data.list: ', res.data.list);
+            // } else if (res.data.code == 202) {
+            //   showToast('搜索失败', 1000)
+            // }
+          }
+
+        } catch (error) {
+          console.log('error: ', error);
+        }
+      }
+
+      //请求歌曲
       const fetchData = async () => {
         try {
           const res = await axios.get('https://zj.v.api.aa1.cn/api/qqmusic/demo.php', {
@@ -578,6 +698,7 @@
           console.log('error: ', error);
         }
       };
+
       // 播放音频函数
       const playAudio = (url, name, img) => {
         if (audioRef.current) {
@@ -588,6 +709,18 @@
           setSelectImg(img);
         }
       };
+
+      const handleShowLyrics = () => {
+        setIsShowLyrics(!isShowLyrics);
+
+        if (isShowLyrics) {
+          showToast('切换歌词', 1000)
+          getLyrics(selectName);
+        } else {
+          showToast('切换歌曲列表', 1000)
+        }
+      };
+
       //切换单曲循环状态
       const toggleLoop = () => {
         setIsLooping(!isLooping);
@@ -598,14 +731,23 @@
         }
       };
 
-      useEffect(() => {
-        if (inputValue.trim() !== '') {
-          fetchData()
-          // alert('搜索成功！')
-        } else if (inputValue.trim() === '') {
-          showToast('请输入搜索内容', 1000)
-        }
-      }, [selectedNum, page]);  // 起始时加载数据
+      //时间格式
+      const formatTime = (totalSeconds) => {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = Math.floor(totalSeconds % 60);
+        const milliseconds = Math.round((totalSeconds - Math.floor(totalSeconds)) * 100);
+
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        const formattedSeconds = String(seconds).padStart(2, '0');
+        // const formattedMilliseconds = String(milliseconds).padStart(2, '0');
+
+        // return `${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
+        return `${formattedMinutes}:${formattedSeconds}`;
+      }
+
+
+
+
       //上下一页
       const handelClick = (text) => {
 
@@ -619,47 +761,36 @@
           console.log('page: ', page);
         }
       }
-      // 播放上一首
-      const playPreviousSong = () => {
-        if (currentSongIndex > 0) {
-          setCurrentSongIndex(currentSongIndex - 1);
-          const name = resultList[currentSongIndex - 1].name + "--" + resultList[currentSongIndex - 1].singer
-          setSelectName(name);
-          setSelectUrl(resultList[currentSongIndex - 1].url);
-          setSelectImg(resultList[currentSongIndex - 1].cover);
-          if (audioRef.current) {
-            audioRef.current.src = resultList[currentSongIndex - 1].url;
-            audioRef.current.play();
-          }
-        }
-      };
-      // 播放下一首歌曲
-      const playNextSong = () => {
-        if (currentSongIndex < resultList.length - 1) {
-          setCurrentSongIndex(currentSongIndex + 1);
-          const name = resultList[currentSongIndex + 1].name + "--" + resultList[currentSongIndex + 1].singer
-          setSelectName(name);
-          // setSelectName(resultList[currentSongIndex + 1].name);
-          setSelectUrl(resultList[currentSongIndex + 1].url);
-          setSelectImg(resultList[currentSongIndex + 1].cover);
-          if (audioRef.current) {
-            audioRef.current.src = resultList[currentSongIndex + 1].url;
-            audioRef.current.play();
-          }
-        } else {
-          if (currentSongIndex > 0) {
-            setCurrentSongIndex(currentSongIndex - 1);
-            setSelectName(resultList[currentSongIndex - 1].name);
-            setSelectUrl(resultList[currentSongIndex - 1].url);
-            setSelectImg(resultList[currentSongIndex - 1].cover);
-            if (audioRef.current) {
-              audioRef.current.src = resultList[currentSongIndex - 1].url;
-              audioRef.current.play();
-            }
-          }
+      const updateSongDetails = (index) => {
+        const song = resultList[index];
+        const name = `${song.name}--${song.singer}`;
+        setSelectName(name);
+        setSelectUrl(song.url);
+        setSelectImg(song.cover);
+        getLyrics(name); // 请求歌词
+        if (audioRef.current) {
+          audioRef.current.src = song.url;
+          audioRef.current.play();
         }
       };
 
+      // 播放上一首
+      const playPreviousSong = () => {
+        if (currentSongIndex > 0) {
+          const newIndex = currentSongIndex - 1;
+          setCurrentSongIndex(newIndex);
+          updateSongDetails(newIndex);
+        }
+      };
+
+      // 播放下一首歌曲
+      const playNextSong = () => {
+        if (currentSongIndex < resultList.length - 1) {
+          const newIndex = currentSongIndex + 1;
+          setCurrentSongIndex(newIndex);
+          updateSongDetails(newIndex);
+        }
+      };
       // 切换播放和暂停状态
       const togglePlayPause = () => {
         if (audioRef.current) {
@@ -764,32 +895,71 @@
                   <input type="radio" name="fruit" value="30" onChange={handleNumChange} checked={selectedNum === '30'} /> 30首
                 </label>
               </form>
-              当前播放状态:<div class="btn" onClick={toggleLoop}>{isLooping ? '循环播放' : '顺序播放'}</div>
+              <div class="btn" onClick={toggleLoop}>{isLooping ? '循环播放' : '顺序播放'}</div>
+              <div class="btn" onClick={handleShowLyrics}>{isShowLyrics ? '切换歌词' : '切换歌曲'}</div>
             </div>
           </div>
 
-          <div>
-            <p class="pointOut">提示：可以点击下列歌曲名播放</p>
-            {resultList.length > 0 ? (
-              <div class={`musicDiv`}>
-                {resultList.map((item, index) => (
-                  <div key={item.id} class={`${item.name + "--" + item.singer == selectName ? 'active' : 'listHover'}`} onClick={() => {
-                    const name = item.name + "--" + item.singer
 
-                    setSelectName(name)
-                    setSelectUrl(item.url)
-                    setSelectImg(item.cover);
-                    playAudio(item.url, name, item.cover); // 更新展示的音乐名称为当前点击音乐的名称
-                  }}>
-                    {index + 1}.{item.name}--{item.singer}
-                  </div>
-                ))}
+          {
+            isShowLyrics && <div>
+              <p class="pointOut">提示：可以点击下列歌曲名播放</p>
+              {resultList.length > 0 ? (
+                <div class={`musicDiv`}>
+                  {resultList.map((item, index) => (
+                    <div
+                      key={item.id}
+                      class={`${item.name + "--" + item.singer == selectName ? 'active' : 'listHover'}`}
+                      onClick={() => {
+                        const name = item.name + "--" + item.singer
+
+                        setSelectName(name)
+                        setSelectUrl(item.url)
+                        setSelectImg(item.cover);
+                        playAudio(item.url, name, item.cover); // 更新展示的音乐名称为当前点击音乐的名称
+                      }}>
+                      {index + 1}.{item.name}--{item.singer}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div class="musicDiv">
+                  <p class="textP">暂未搜索到歌曲内容</p>
+                </div>
+              )}
+            </div>
+          }
+
+          {
+            !isShowLyrics && <div>
+              <p class="pointOut">提示：歌词显示</p>
+              <div class="musicLyrics">
+                {
+                  handelLines(selectLyrics).slice(5).map((line, index) => {
+                    let startTime = extractTimeFromLyrics(line);
+                    let endTime = index < handelLines(selectLyrics).slice(5).length - 1
+                      ? extractTimeFromLyrics(handelLines(selectLyrics).slice(5)[index + 1])
+                      : Infinity; // 如果是最后一行，设置一个很大的结束时间
+
+                    // console.log('歌词对应的时间: ', startTime, '下一首歌词对应的时间: ', endTime);
+
+                    // 检查当前播放时间是否在歌词的时间范围内
+                    const isActive = playTime >= startTime && playTime < endTime;
+
+                    return (
+                      <span
+                        key={index}
+                        ref={isActive ? activeLineRef : null}
+                        className={`${isActive ? "active" : "listHover"}`}>
+                        {line.substring(10)}
+                      </span>
+                    );
+                  })
+                }
               </div>
-            ) : (
-              <div class="musicDiv">
-                <p class="textP">暂未搜索到歌曲内容</p>
-              </div>
-            )}</div>
+
+            </div>
+          }
         </div>
       );
     };
