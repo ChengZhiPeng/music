@@ -486,7 +486,7 @@
                     let startTime = extractTimeFromLyrics(line);
                     let endTime = index < handelLines(selectLyrics).slice(5).length - 1
                       ? extractTimeFromLyrics(handelLines(selectLyrics).slice(5)[index + 1])
-                      : Infinity; // 如果是最后一行，设置一个很大的结束时间
+                      : "10:00"; // 如果是最后一行，设置一个很大的结束时间
 
                     // console.log('歌词对应的时间: ', startTime, '下一首歌词对应的时间: ', endTime);
 
