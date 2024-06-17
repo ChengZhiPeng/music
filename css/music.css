@@ -85,8 +85,8 @@ p {
   overflow-y: auto;
   width: 500px;
   height: 450px;
-  background-image: url("https://gd-hbimg.huaban.com/030c54be6125948bdb8cffed6ceb95345a682f1d13b13-69AJsj_fw1200webp");
-  background-size: cover;
+  /* background-image: url("https://gd-hbimg.huaban.com/030c54be6125948bdb8cffed6ceb95345a682f1d13b13-69AJsj_fw1200webp");
+  background-size: cover; */
   /* 调整图像大小以填充整个背景 */
   background-repeat: no-repeat;
   /* 防止图像重复 */
@@ -110,9 +110,9 @@ p {
   overflow-y: auto;
   width: 500px;
   height: 450px;
-  background-image: url("https://gd-hbimg.huaban.com/030c54be6125948bdb8cffed6ceb95345a682f1d13b13-69AJsj_fw1200webp");
+  /* background-image: url("https://gd-hbimg.huaban.com/030c54be6125948bdb8cffed6ceb95345a682f1d13b13-69AJsj_fw1200webp");
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   border: 1px solid #eeeeee;
   box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
   padding-left: 10px;
@@ -145,7 +145,7 @@ p {
 .title {
   display: inline-block;
   animation: marquee 8s linear infinite;
-  color: #357fff;
+  color: #fff;
   width: 40px;
 }
 
@@ -171,7 +171,7 @@ p {
 
 /* 歌曲播放状态 */
 .active {
-  color: #357fff;
+  color: #ffffff;
   animation: hueRotate 10s infinite alternate;
   box-shadow: 5px 5px 10px rgb(255 255 255 / 50%);
   /* transform: scale(1.1); */
@@ -251,4 +251,16 @@ p {
   justify-content: space-between;
   align-items: center;
   width: 410px;
+}
+
+body {
+  /* width: 100%; */
+  background-image: url("https://lmg.jj20.com/up/allimg/4k/s/02/21092423203CM3-0-lp.jpg");
+  /* background-image: url("https://img2.baidu.com/it/u=3707071187,3801523847&fm=253&app=138&f=JPEG?w=1067&h=800"); */
+  /* background-image: url("https://pic.rmb.bdstatic.com/bjh/events/974e4f87430bdb9ec0ffdd6de897bc5d7840.png@h_1280"); */
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* 调整图片位置 */
+  background-position: center;
 }
