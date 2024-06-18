@@ -185,14 +185,14 @@
 
       //请求歌词
       const getLyrics = async (text) => {
+        console.log('text: ', text);
         try {
           let musicName = text ? text : selectName
           const regex = /(.+)--/;
           const match = regex.exec(musicName);
-          console.log('selectName: ', musicName);
-
           if (match) {
-            const charactersBeforeMatch = match[1]; // 第一个捕获组匹配的内容
+            // const charactersBeforeMatch = match[1]; // 第一个捕获组匹配的内容
+            const charactersBeforeMatch = match.input; // 第一个捕获组匹配的内容
             const res = await axios.get('https://www.hhlqilongzhu.cn/api/dg_geci.php?', {
 
               params: {
@@ -313,6 +313,7 @@
       const updateSongDetails = (index) => {
         const song = resultList[index];
         const name = `${song.name}--${song.singer}`;
+        console.log('11111', name);
         setSelectName(name);
         setSelectUrl(song.url);
         setSelectImg(song.cover);
