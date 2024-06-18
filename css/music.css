@@ -63,6 +63,14 @@ p {
   box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
 }
 
+.imgDiv :hover {
+  animation: spin 0.1s linear infinite;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
