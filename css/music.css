@@ -105,6 +105,7 @@ p {
   border: 1px solid #eeeeee;
   box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
   padding-left: 10px;
+  overflow-x: hidden;
 }
 
 .musicDiv > div {
@@ -129,6 +130,7 @@ p {
   display: flex;
   flex-direction: column;
   line-height: 2;
+  overflow-x: hidden;
 }
 
 .changeMusic {
