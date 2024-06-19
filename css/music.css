@@ -133,6 +133,27 @@ p {
   overflow-x: hidden;
 }
 
+/* 隐藏默认滚动条 */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+/* 设置滚动条轨道样式 */
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+
+/* 设置滚动条thumb（拖动条）样式 */
+::-webkit-scrollbar-thumb {
+  background-color: #848484;
+}
+
+/* 鼠标悬停时滚动条thumb样式 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 .changeMusic {
   width: 300px;
 }
