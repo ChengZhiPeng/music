@@ -25,8 +25,36 @@ p {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    height: 100vh;
-    margin-top: 10rem;
+    height: 61rem;
+    overflow: hidden;
+  }
+
+  body {
+    background-image: url("https://img1.baidu.com/it/u=487789852,828469748&fm=253&fmt=auto&app=138&f=JPEG?w=1422&h=800");
+    /* transition: background-image 1s ease; */
+    /* animation: changeBackground 30s infinite; */
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* 调整图片位置 */
+    background-position: center;
+  }
+
+  @keyframes changeBackground {
+    0% {
+      background-image: url("https://lmg.jj20.com/up/allimg/4k/s/02/21092423203CM3-0-lp.jpg");
+    }
+    25% {
+      background-image: url("https://pic.rmb.bdstatic.com/bjh/events/974e4f87430bdb9ec0ffdd6de897bc5d7840.png@h_1280");
+    }
+    50% {
+      background-image: url("https://img2.baidu.com/it/u=3707071187,3801523847&fm=253&app=138&f=JPEG?w=1067&h=800");
+    }
+    75% {
+      background-image: url("	https://img0.baidu.com/it/u=48465464,3484394863&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500");
+    }
+    100% {
+      background-image: url("https://img1.baidu.com/it/u=487789852,828469748&fm=253&fmt=auto&app=138&f=JPEG?w=1422&h=800");
+    }
   }
 }
 
@@ -45,6 +73,10 @@ p {
     justify-content: flex-start;
     align-items: flex-start;
   }
+}
+
+/* 应用于屏幕宽度大于 768px 的 PC 端设备 */
+@media only screen and (min-width: 769px) {
 }
 
 .imgDiv {
