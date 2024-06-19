@@ -64,6 +64,19 @@ p {
 
 /* 应用于屏幕宽度大于 768px 的 PC 端设备 */
 @media only screen and (min-width: 769px) {
+  .selectDiv {
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    align-items: flex-end;
+  }
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 410px;
+  }
 }
 
 .imgDiv {
@@ -100,13 +113,13 @@ p {
   }
 }
 
-.selectDiv {
+/* .selectDiv {
   width: 500px;
   display: flex;
   justify-content: space-between;
   margin: 10px 0;
   align-items: flex-end;
-}
+} */
 
 .musicDiv {
   border-radius: 10px;
@@ -297,12 +310,12 @@ p {
   margin: 20px 0;
 }
 
-.foot {
+/* .foot {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 410px;
-}
+} */
 
 body {
   background-image: url("https://img1.baidu.com/it/u=487789852,828469748&fm=253&fmt=auto&app=138&f=JPEG?w=1422&h=800");
