@@ -127,7 +127,7 @@
             block: 'center'//表示元素将被滚动到视图的中心位置。
           });
         }
-      }, [playTime, selectedNum, page, selectLyrics, selectName]);
+      }, [playTime, selectLyrics]);
 
       useEffect(() => {
         if (inputValue.trim() !== '') {
@@ -136,7 +136,7 @@
         } else if (inputValue.trim() === '') {
           showToast('请输入搜索内容', 1000)
         }
-      }, []);  // 起始时加载数据
+      }, [page, selectedNum]);  // 起始时加载数据
 
       useEffect(() => {
         if (audioRef.current) {
