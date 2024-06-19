@@ -127,7 +127,7 @@
             block: 'center'//表示元素将被滚动到视图的中心位置。
           });
         }
-      }, [playTime]);
+      }, [playTime, selectedNum, page, selectLyrics, selectName]);
 
       useEffect(() => {
         if (inputValue.trim() !== '') {
@@ -136,7 +136,7 @@
         } else if (inputValue.trim() === '') {
           showToast('请输入搜索内容', 1000)
         }
-      }, [selectedNum, page, selectLyrics, selectName]);  // 起始时加载数据
+      }, []);  // 起始时加载数据
 
       useEffect(() => {
         if (audioRef.current) {
@@ -185,7 +185,6 @@
 
       //请求歌词
       const getLyrics = async (text) => {
-        console.log('text: ', text);
         try {
           let musicName = text ? text : selectName
           const regex = /(.+)--/;
@@ -205,6 +204,7 @@
               }
             });
             setSelectLyrics(res.data)
+            showToast('歌词搜索成功', 1000)
             // if (res.status
             //   == 200) {
             //   showToast('搜索成功', 1000)
@@ -235,13 +235,14 @@
             }
           });
 
+          console.log("res.status", res.status);
           if (res.status
             == 200) {
-            showToast('搜索成功', 1000)
+            showToast('歌曲搜索成功', 1000)
             setResultList(res.data.list);
             // console.log('res.data.list: ', res.data.list);
           } else if (res.data.code == 202) {
-            showToast('搜索失败', 1000)
+            showToast('歌曲搜索失败', 1000)
           }
         } catch (error) {
           console.log('error: ', error);
