@@ -47,6 +47,29 @@ p {
 
 /* 在媒体查询中针对不同屏幕尺寸进行样式调整 */
 @media only screen and (max-width: 768px) {
+  /* 在小屏幕上将显示方式改为垂直排列 */
+  .bodyDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 61rem;
+    overflow-y: hidden;
+  }
+
+  .selectDiv {
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    align-items: flex-end;
+  }
+
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+  }
   .body {
     flex-direction: column;
     justify-content: center;
