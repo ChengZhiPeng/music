@@ -109,7 +109,7 @@
       const [resultList, setResultList] = useState([]);//存储从 API 中返回的歌曲列表数据
       const [page, setPage] = useState(1);// 存储当前加载的数据页码，用于控制获取歌曲数据的页数。
       const [currentSongIndex, setCurrentSongIndex] = useState(0);//存储当前歌曲在 resultList 中的索引。
-      const [isPlaying, setIsPlaying] = useState(false);//标记音频播放状态，用于切换播放和暂停按钮状态。
+
       //播放歌曲
       const [selectName, setSelectName] = useState('');// 存储当前选择播放的歌曲名称。
       const [selectLyrics, setSelectLyrics] = useState('');// 存储当前选择播放的歌词。
@@ -205,14 +205,6 @@
             });
             setSelectLyrics(res.data)
             showToast('歌词搜索成功', 1000)
-            // if (res.status
-            //   == 200) {
-            //   showToast('搜索成功', 1000)
-            //   setResultList(res.data.list);
-            //   console.log('res.data.list: ', res.data.list);
-            // } else if (res.data.code == 202) {
-            //   showToast('搜索失败', 1000)
-            // }
           }
 
         } catch (error) {
@@ -311,10 +303,12 @@
           console.log('page: ', page);
         }
       }
+
+
       const updateSongDetails = (index) => {
         const song = resultList[index];
         const name = `${song.name}--${song.singer}`;
-        console.log('11111', name);
+
         setSelectName(name);
         setSelectUrl(song.url);
         setSelectImg(song.cover);
@@ -325,34 +319,33 @@
         }
       };
 
-      // 播放上一首
+
+      // 播放上一首歌曲
       const playPreviousSong = () => {
         if (currentSongIndex > 0) {
           const newIndex = currentSongIndex - 1;
           setCurrentSongIndex(newIndex);
           updateSongDetails(newIndex);
+        } else if (currentSongIndex === 0) {
+          handelClick("add")
+          setCurrentSongIndex(resultList.length - 1);
+          updateSongDetails(resultList.length - 1);
         }
       };
-
       // 播放下一首歌曲
       const playNextSong = () => {
         if (currentSongIndex < resultList.length - 1) {
           const newIndex = currentSongIndex + 1;
           setCurrentSongIndex(newIndex);
           updateSongDetails(newIndex);
+        } else if (currentSongIndex == resultList.length - 1) {
+
+          handelClick("Subtraction")
+          setCurrentSongIndex(0);
+          updateSongDetails(currentSongIndex);
         }
       };
-      // 切换播放和暂停状态
-      const togglePlayPause = () => {
-        if (audioRef.current) {
-          if (isPlaying) {
-            audioRef.current.pause();
-          } else {
-            audioRef.current.play();
-          }
-          setIsPlaying(!isPlaying);
-        }
-      };
+
 
       // 监听音频播放状态
       const handleSongEnded = () => {
@@ -468,6 +461,7 @@
                         setSelectUrl(item.url)
                         setSelectImg(item.cover);
                         playAudio(item.url, name, item.cover); // 更新展示的音乐名称为当前点击音乐的名称
+                        setCurrentSongIndex(index)//播放歌曲并更新当前歌曲索引
                       }}>
                       {index + 1}.{item.name}--{item.singer}
                     </div>
