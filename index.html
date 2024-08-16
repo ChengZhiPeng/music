@@ -102,7 +102,7 @@
     const ExamplesImg = "https://gd-hbimg.huaban.com/51cf5c5445b1f7e9ebb4d2542b6ab47d8ccef6fe3d67b-vy8H9i_fw658webp"
     const App = () => {
       const audioRef = useRef(null);
-      const [isShowLyrics, setIsShowLyrics] = useState(true);//是否循环播放
+      const [isShowLyrics, setIsShowLyrics] = useState(true);//切换歌词
       const [isLooping, setIsLooping] = useState(false);//是否循环播放
       const [inputValue, setInputValue] = useState('周杰伦');//存储搜索框中输入的歌手或歌曲名
       const [selectedNum, setSelectedNum] = useState('30');//存储用户选择的展示歌曲数量（10首、20首、30首）
@@ -252,12 +252,12 @@
         }
       };
 
-      const handleShowLyrics = () => {
+      const handleShowLyrics = (name = selectName) => {
         setIsShowLyrics(!isShowLyrics);
 
         if (isShowLyrics) {
           showToast('切换歌词', 1000)
-          getLyrics(selectName);
+          getLyrics(name);
         } else {
           showToast('切换歌曲列表', 1000)
         }
@@ -457,7 +457,9 @@
                       onClick={() => {
                         const name = item.name + "--" + item.singer
 
+
                         setSelectName(name)
+                        handleShowLyrics(name)
                         setSelectUrl(item.url)
                         setSelectImg(item.cover);
                         playAudio(item.url, name, item.cover); // 更新展示的音乐名称为当前点击音乐的名称
