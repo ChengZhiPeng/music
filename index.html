@@ -252,12 +252,12 @@
         }
       };
 
-      const handleShowLyrics = (name = selectName) => {
+      const handleShowLyrics = () => {
         setIsShowLyrics(!isShowLyrics);
 
         if (isShowLyrics) {
           showToast('切换歌词', 1000)
-          getLyrics(name);
+          getLyrics(selectName);
         } else {
           showToast('切换歌曲列表', 1000)
         }
@@ -459,7 +459,7 @@
 
 
                         setSelectName(name)
-                        handleShowLyrics(name)
+                        // handleShowLyrics(name)
                         setSelectUrl(item.url)
                         setSelectImg(item.cover);
                         playAudio(item.url, name, item.cover); // 更新展示的音乐名称为当前点击音乐的名称
