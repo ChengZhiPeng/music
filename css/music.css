@@ -180,7 +180,7 @@ p {
   background-repeat: no-repeat; */
   border: 1px solid #eeeeee;
   box-shadow: 5px 5px 10px rgb(155 148 148 / 50%);
-  padding-left: 10px;
+  /* padding-left: 10px; */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -233,7 +233,9 @@ p {
   display: inline-block;
   animation: marquee 8s linear infinite;
   color: #fff;
-  width: 40px;
+  background: #0808084d;
+  border-radius: 5px;
+  padding: 4px;
 }
 
 @keyframes marquee {
@@ -252,8 +254,12 @@ p {
 
 .listHover:hover {
   transform: scale(1.1);
-  color: #0d00ff;
-  text-decoration: underline;
+  /* color: #0d00ff; */
+  color: #f6f6f6;
+  background: #0000001a;
+  border-radius: 5px;
+  padding: 0 4px;
+  /* text-decoration: underline; */
 }
 
 /* 歌曲播放状态 */
@@ -263,6 +269,8 @@ p {
   box-shadow: 5px 5px 10px rgb(255 255 255 / 50%);
   /* transform: scale(1.1); */
   font-size: larger;
+  background: #0000001a;
+  border-radius: 5px;
 }
 
 @keyframes hueRotate {
