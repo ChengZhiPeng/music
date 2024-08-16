@@ -227,15 +227,17 @@ p {
 .titleP {
   white-space: nowrap;
   overflow: hidden;
+  font-weight: 600;
 }
 
 .title {
   display: inline-block;
   animation: marquee 8s linear infinite;
   color: #fff;
-  background: #0808084d;
   border-radius: 5px;
   padding: 4px;
+  width: 40px;
+  font-weight: 600;
 }
 
 @keyframes marquee {
