@@ -252,8 +252,8 @@ p {
 
 .listHover:hover {
   transform: scale(1.1);
-  color: #357fff;
-  /* text-decoration: underline; */
+  color: #0d00ff;
+  text-decoration: underline;
 }
 
 /* 歌曲播放状态 */
